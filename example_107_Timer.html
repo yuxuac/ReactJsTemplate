@@ -1,0 +1,61 @@
+<!--https://facebook.github.io/react/docs/component-specs.html-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Hello React</title>
+        <script src="./script/react.js"></script>
+        <script src="./script/react-dom.js"></script>
+        <script src="./script/browser.min.js"></script>
+        <script src="./script/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="example"></div>
+        <script type="text/babel">
+            var Hello = React.createClass({
+                getInitialState: function() {
+                    return {
+                        opacity: 1.0,
+                        isIncrease: false
+                    };
+                },
+                componentDidMount: function() {
+                    this.timer = setInterval(function() {
+                        var opacity = this.state.opacity;
+                        var isIncrease = this.state.isIncrease;
+
+                        if(isIncrease == true) {
+                            if(opacity < 1)
+                                opacity += .05;
+                            else
+                                isIncrease = false;
+                        }
+                        else if(isIncrease == false) {
+                            if(opacity > 0)
+                                opacity -= .05;
+                            else
+                                isIncrease = true;
+                        }
+                        this.setState({
+                            opacity: opacity,
+                            isIncrease: isIncrease
+                        })
+                    }.bind(this), 100);
+                },
+                render: function(){
+                    return (
+                        <div style={{opacity: this.state.opacity}}>
+                            Hello {this.props.name}
+                        </div>
+                    );
+                }
+            });
+
+            ReactDOM.render(
+                <Hello name="World" />,
+                document.getElementById("example")
+            );
+        </script>
+    </body>
+    
+</html>

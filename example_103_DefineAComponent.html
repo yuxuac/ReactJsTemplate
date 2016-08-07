@@ -10,13 +10,18 @@
     </head>
     <body>
         <div id="example"></div>
-        <script type="text/babel" src="example1.jsx"></script>
-        <input type="text" class="yourName"/>
-        <input type="button" class="action" value="clickme" />
-        <script>
-            $(".action").on("click", function(){
-                
-            })
+        <script type="text/babel">
+            var HelloMessage = React.createClass({
+                render: function() {
+                    return <h1>Hello {this.props.name} </h1>;
+                }
+            });
+
+            ReactDOM.render(
+                <HelloMessage name="World"/>,
+                $("#example")[0]
+                //document.getElementById("example")
+            );
         </script>
     </body>
     

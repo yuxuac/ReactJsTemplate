@@ -1,0 +1,62 @@
+<!--https://facebook.github.io/react/docs/component-specs.html-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Hello React</title>
+        <script src="./script/react.js"></script>
+        <script src="./script/react-dom.js"></script>
+        <script src="./script/browser.min.js"></script>
+        <script src="./script/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="example"></div>
+        <script type="text/babel">
+            var UserGit = React.createClass({
+                getInitialState: function() {
+                    return {gitList:[]};
+                },
+
+                componentDidMount: function(){
+                    $.get(this.props.source, function(result) {
+                        var tempState = [];
+                            result.forEach(function(element) {
+                                tempState.push({
+                                    username: element.owner.login,
+                                    lastGistUrl: element.html_url
+                                });
+                            });
+
+                        if(this.isMounted()) {
+                            this.setState({
+                                gitList: tempState
+                            });
+                        }
+                    }.bind(this));
+                },
+
+                render: function() {
+                    var results = this.state.gitList;
+                    console.log(results.length);
+                    
+                    if(results.length > 0){
+                        return (<div>
+                            {results.map(function(result) {
+                                return <p>{result.username}'s git is <a href={result.lastGistUrl}>here</a></p>
+                                })}
+                        </div>);
+                    } else {
+                        return <div>Loading...</div>
+                    }
+                }
+            });
+
+            ReactDOM.render(
+                <UserGit source="https://api.github.com/users/octocat/gists" />,
+                document.getElementById("example")
+            )
+
+        </script>
+    </body>
+    
+</html>

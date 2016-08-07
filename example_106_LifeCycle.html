@@ -1,0 +1,84 @@
+<!--https://facebook.github.io/react/docs/component-specs.html-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Hello React</title>
+        <script src="./script/react.js"></script>
+        <script src="./script/react-dom.js"></script>
+        <script src="./script/browser.min.js"></script>
+        <script src="./script/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="example"></div>
+        <script type="text/babel">
+            var LifeCycleComponent = React.createClass({
+                getDefaultProps: function(){
+                    console.log("getDefaultProps()");
+                    return {
+                        greetings: "Greeting"
+                    }
+                },
+                getInitialState(){
+                    console.log("getInitialState()");
+                    return {
+                        text: ""
+                    }
+                },
+                componentWillMount: function(){
+                    console.log("componentWillMount()");
+                },
+                componentDidMount: function(){
+                    console.log("componentDidMount()");
+                },
+                shouldComponentUpdate: function(nextProp, nextState){
+                    console.log("shouldComponentUpdate() =>");
+                    console.log(nextProp.greetings);
+                    console.log(nextState.text);
+                    return true;
+                },
+                componentWillUpdate: function(nextProp, nextState){
+                    console.log("componentWillUpdate() =>");
+                    console.log(nextProp.greetings);
+                    console.log(nextState.text);
+                },
+                componentDidUpdate: function(prevProp, prevState){
+                    console.log("componentDidUpdate() =>");
+                    console.log(prevProp.greetings);
+                    console.log(prevState.text);
+                },
+
+                componentWillReceiveProps: function(nextProps){
+                    console.log("componentWillReceiveProps() =>");
+                    console.log(nextProps.greetings);
+                },
+                componentWillUnMount: function(){
+                    console.log("componentWillUnMount()");
+                },
+
+                handleChange(event) {
+                    this.setState({
+                        text: event.target.value
+                    })
+                },
+                render: function(){
+                    var val = this.state.text;
+                    return (
+                        <div>
+                            Hello, please check the log message.{this.state.text}
+                            <p>{this.props.greetings}:{val}</p>
+                            <input type="text" ref="inputText" onChange={this.handleChange} />
+                        </div>
+                    );
+                }
+            });
+
+            ReactDOM.render(
+                <LifeCycleComponent greetings="Hello, please type some info here"/>,
+                $("#example")[0]
+                //document.getElementById("example")
+            );
+        </script>
+    </body>
+    
+</html>
